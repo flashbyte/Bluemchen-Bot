@@ -12,8 +12,10 @@ def getTemp():
 			tempString = result.group(0)
 			return tempString
 		else:
+			print "Debug 1"
 			return ''
 	except:
+		# print "Debug 2"
 		return ''
 
 print getTemp()
