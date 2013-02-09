@@ -1,19 +1,19 @@
 #! /usr/bin/env python
 # Author: Nils Mull (mail@flash-byte.de)
 # Date: 22.01.2013
-import twitter
+#import twitter
 import cal
 import time
+import init
 
-scedule=[
-('Monday 9:00',putzplan())
-]
-
+calendar=cal.Cal()
+#calendar.run()
 # Start Deamon
-while True:
+#while True:
 	# ----- Do Stuf -----
-	print "RUN:%s" %(time.asctime())
-	wd=time.strftime('%w')
+#	print "RUN:%s" %(time.asctime())
 
 	# -------------------
-	time.sleep(60*5)
+	# Sleep for init.sleepTime Minutes
+	#time.sleep(60*init.sleepTime)
+

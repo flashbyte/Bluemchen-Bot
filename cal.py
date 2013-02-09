@@ -1,38 +1,27 @@
 # Author: Nils Mull (mail@flash-byte.de)
 # Date: 22.01.2013
 from init import calenderConfig
-import urllib
+import time
+import requests
+import xml.etree.ElementTree as ElementTree
 
 class Cal(object):
 	def __init__(self):
 		self.icalUrl=calenderConfig['icalUrl']		
 		self.__getCal__()
-		self.__findEvents_()
-
+		self.__parseCal__()
 
 	def __getCal__(self):
-		ical = urllib.urlopen(self.icalUrl)
-		lines = ical.readlines()
-		self.calender=[]
-		for line in lines:
-			self.calender.append(line.rstrip())
-		ical.close()
+		try:
+			self.__req__ = requests.get(self.icalUrl)
+		except:
+			print ("Could not fetch Calender")
 
-	def __findEvents_(self):
-		inEvent=False
-		self.events=[]
-		for line in self.calender:
-			if 'BEGIN:VEVENT' in line:
-				inEvent=True
-				event={}
-			if inEvent == True:
-				if 'DTSTART' in line:
-					event['date']=(line.split(':')[1])
-				if 'SUMMARY' in line:
-					event['summary']=(line.split(':')[1])
-				if 'RRULE' in line:
-					event['interval']=((line.split(':')[1]).split(';')[1]).split('=')[1]
-			if 'END:VEVENT' in line:
-				inEvent=False
-				self.events.append(event)
-		print self.events	
+	def __parseCal__(self):
+		prefix='{http://www.w3.org/2005/Atom}'
+		text = self.__req__.content
+		rootElement = ElementTree.fromstring(text.encode('ascii', 'ignore'))
+		entries = rootElement.findall(prefix+'entry')
+		for entry in entries:
+			print entry.find(prefix+'title').text
+
