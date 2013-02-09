@@ -5,12 +5,12 @@ import pymysql
 
 #2013/02/09 19:49:21 Temperature 76.78F 24.88C
 def getTemp(text):
-	result = re.search('\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}.*?\d{2}.\d{2}F (\d{2}.\d{2})C',text)
-	if result!=None:
-		tempString = result.groups()[0]
-		return float(tempString)
-	else:
-		return None
+    result = re.search('\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}.*?\d{2}.\d{2}F (\d{2}.\d{2})C',text)
+    if result!=None:
+        tempString = result.groups()[0]
+        return float(tempString)
+    else:
+        return None
 
 
 def postTempToDB(temperatur):
