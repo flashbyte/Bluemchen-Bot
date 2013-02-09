@@ -19,3 +19,4 @@ def getTemp():
 		return ''
 
 print getTemp()
+
