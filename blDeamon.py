@@ -5,15 +5,6 @@
 import cal
 import time
 import init
+import tempSens
 
-calendar=cal.Cal()
-#calendar.run()
-# Start Deamon
-#while True:
-	# ----- Do Stuf -----
-#	print "RUN:%s" %(time.asctime())
-
-	# -------------------
-	# Sleep for init.sleepTime Minutes
-	#time.sleep(60*init.sleepTime)
-
+tSen = tempSens.tempSensor()

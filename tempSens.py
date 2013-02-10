@@ -1,23 +1,39 @@
-import re
 import time
 import pylab
-fh = open('temperatur.txt')
+import pymysql
+from init import db
 
-lines=fh.readlines()
+class tempSensor(object):
+    """docstring for tempSensot
+    Class for getting tempertur data from database, creating a plot and upload it to the blog.
+    """
+    def __init__(self):
+        data = self.getData(24)
+        self.plot(data)
 
-#2013/01/24 20:31:37 Temperature 75.42F 24.12C\n'
+    def getData(self,houres):
+        """ Get data from database
 
-data=[]
-for line in lines:
-	result = re.search('(\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}).*?\d{2}.\d{2}F (\d{2}.\d{2})C',line)
-	if result != None:
-		timeString = result.group(1)
-		temperatur = result.group(2)
-		#tmp = {'time':time.strptime(timeString,'%Y/%m/%d %H:%M:%S'),'temperatur':float(temperatur)}
-		data.append(temperatur)
+        Keyword arguments:
+        houres -- how many houres
+        returns list of hashes
+        """
+        database = pymysql.connect(host=db['host'], user=db['user'], passwd=db['passwd'], db=db['db'])
+        cursor = database.cursor()
+        try:
+            cursor.execute('select * from temperatur_sensor where DATE_SUB(NOW(),INTERVAL %s HOUR) <= time and temperatur order by time asc' %houres)
+            database.commit()
+        except:
+            print('DB error')
+            return None
+        database.close()
+        return list(cursor.fetchall())
 
-
-pylab.plot(data)
-pylab.show()
-
-fh.close()
+    def plot(self,data):
+        x=[]
+        y=[]
+        for i in data:
+            x.append(i[0])
+            y.append(i[1])
+        pylab.plot(x,y)
+        pylab.savefig('temperatur')
