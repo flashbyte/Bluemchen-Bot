@@ -35,5 +35,10 @@ class tempSensor(object):
         for i in data:
             x.append(i[0])
             y.append(i[1])
+        pylab.xlabel('Zeit')
+        pylab.ylabel('Temperatur in C')
         pylab.plot(x,y)
         pylab.savefig('temperatur')
+
+
+
