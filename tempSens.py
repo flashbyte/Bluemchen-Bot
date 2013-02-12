@@ -1,7 +1,7 @@
 import time
 import pylab
 import pymysql
-from init import db
+from init import db,dropbox
 
 class tempSensor(object):
     """docstring for tempSensot
@@ -9,7 +9,9 @@ class tempSensor(object):
     """
     def __init__(self):
         data = self.getData(24)
-        self.plot(data)
+        self.plot(data,dropbox['directory']+'temperatur24h.png')
+        data = self.getData(24*7)
+        self.plot(data,dropbox['directory']+'temperatur7d.png')
 
     def getData(self,houres):
         """ Get data from database
@@ -29,7 +31,7 @@ class tempSensor(object):
         database.close()
         return list(cursor.fetchall())
 
-    def plot(self,data):
+    def plot(self,data,filename):
         x=[]
         y=[]
         for i in data:
@@ -38,7 +40,7 @@ class tempSensor(object):
         pylab.xlabel('Zeit')
         pylab.ylabel('Temperatur in C')
         pylab.plot(x,y)
-        pylab.savefig('temperatur')
+        pylab.savefig(filename)
 
 
 
