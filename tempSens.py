@@ -39,7 +39,7 @@ class tempSensor(object):
             y.append(i[1])
         pylab.xlabel('Zeit')
         pylab.ylabel('Temperatur in C')
-        pylabe.title(title)
+        pylab.title(title)
         pylab.plot(x,y)
         pylab.savefig(filename)
 
