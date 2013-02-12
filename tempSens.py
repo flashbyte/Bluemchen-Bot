@@ -9,9 +9,9 @@ class tempSensor(object):
     """
     def __init__(self):
         data = self.getData(24)
-        self.plot(data,dropbox['directory']+'temperatur24h.png')
+        self.plot(data,dropbox['directory']+'temperatur24h.png','Temperatur 24 Stunden')
         data = self.getData(24*7)
-        self.plot(data,dropbox['directory']+'temperatur7d.png')
+        self.plot(data,dropbox['directory']+'temperatur7d.png','Temperatur 7 Tage')
 
     def getData(self,houres):
         """ Get data from database
@@ -31,7 +31,7 @@ class tempSensor(object):
         database.close()
         return list(cursor.fetchall())
 
-    def plot(self,data,filename):
+    def plot(self,data,filename,title):
         x=[]
         y=[]
         for i in data:
@@ -39,6 +39,7 @@ class tempSensor(object):
             y.append(i[1])
         pylab.xlabel('Zeit')
         pylab.ylabel('Temperatur in C')
+        pylabe.title(title)
         pylab.plot(x,y)
         pylab.savefig(filename)
 
