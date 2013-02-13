@@ -12,6 +12,8 @@ class tempSensor(object):
         self.plot(data,dropbox['directory']+'temperatur24h.png','Temperatur 24 Stunden')
         data = self.getData(24*7)
         self.plot(data,dropbox['directory']+'temperatur7d.png','Temperatur 7 Tage')
+        data = self.getData(24*7*30)
+        self.plot(data,dropbox['directory']+'temperatur30d.png','Temperatur 30 Tage')
 
     def getData(self,houres):
         """ Get data from database
