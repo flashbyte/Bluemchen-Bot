@@ -2,10 +2,11 @@
 import matplotlib
 matplotlib.use('Agg')
 
-import time
+#import time
 import matplotlib.pyplot as plt
 import pymysql
-from init import db,dropbox
+from init import db  # , dropbox
+
 
 class tempSensor(object):
     """docstring for tempSensot
@@ -14,7 +15,7 @@ class tempSensor(object):
     def __init__(self):
         pass
 
-    def __getData__(self,houres):
+    def __getData__(self, houres):
         """ Get data from database
 
         Keyword arguments:
@@ -24,7 +25,7 @@ class tempSensor(object):
         database = pymysql.connect(host=db['host'], user=db['user'], passwd=db['passwd'], db=db['db'])
         cursor = database.cursor()
         try:
-            cursor.execute('select * from temperatur_sensor where DATE_SUB(NOW(),INTERVAL %s HOUR) <= time and temperatur order by time asc' %houres)
+            cursor.execute('select * from temperatur_sensor where DATE_SUB(NOW(),INTERVAL %s HOUR) <= time and temperatur order by time asc' % houres)
             database.commit()
         except:
             print('DB error')
@@ -32,10 +33,10 @@ class tempSensor(object):
         database.close()
         return list(cursor.fetchall())
 
-    def __plot__(self,houres,title):
-        data=self.__getData__(houres)
-        x=[]
-        y=[]
+    def __plot__(self, houres, title):
+        data = self.__getData__(houres)
+        x = []
+        y = []
         for i in data:
             x.append(i[0])
             y.append(i[1])
@@ -44,17 +45,14 @@ class tempSensor(object):
         ax.set_xlabel('Zeit')
         ax.set_ylabel('Temperatur in C')
         ax.set_title(title)
-        ax.plot(x,y)
+        ax.plot(x, y)
 
-    def plotToFile(self,houres,filename,title):
+    def plotToFile(self, houres, filename, title):
         """ Plot an Graph and saves it to filename
         Keyword arguments:
         houres
         filename
         title
         """
-        self.__plot__(houres,title)
+        self.__plot__(houres, title)
         self.fig.savefig(filename)
-
-
-
