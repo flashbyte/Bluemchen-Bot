@@ -1,4 +1,5 @@
-
+# Author: Nils Mull (mail@flash-byte.de)
+# Date: 10.02.2013
 import matplotlib
 matplotlib.use('Agg')
 
@@ -8,6 +9,7 @@ import pymysql
 from init import db  # , dropbox
 
 
+# TODO: Rename File and Class
 class tempSensor(object):
     """docstring for tempSensot
     Class for getting tempertur data from database, creating a plot and upload it to the blog.
@@ -45,6 +47,7 @@ class tempSensor(object):
         ax.set_xlabel('Zeit')
         ax.set_ylabel('Temperatur in C')
         ax.set_title(title)
+        # TODO: Bad date fomate
         ax.plot(x, y)
 
     def plotToFile(self, houres, filename, title):
