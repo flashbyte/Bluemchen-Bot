@@ -10,8 +10,7 @@ import pymysql
 from init import db  # , dropbox
 
 
-# TODO: Rename File and Class
-class tempSensor(object):
+class tempPlot(object):
     """docstring for tempSensot
     Class for getting tempertur data from database, creating a plot and upload it to the blog.
     """
