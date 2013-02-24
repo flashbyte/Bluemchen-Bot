@@ -3,6 +3,7 @@
 import matplotlib
 matplotlib.use('Agg')
 
+import tempfile
 #import time
 import matplotlib.pyplot as plt
 import pymysql
@@ -35,6 +36,7 @@ class tempSensor(object):
         database.close()
         return list(cursor.fetchall())
 
+    # TODO: X and Y Size
     def __plot__(self, houres, title):
         data = self.__getData__(houres)
         x = []
@@ -50,12 +52,8 @@ class tempSensor(object):
         # TODO: Bad date fomate
         ax.plot(x, y)
 
-    def plotToFile(self, houres, filename, title):
-        """ Plot an Graph and saves it to filename
-        Keyword arguments:
-        houres
-        filename
-        title
-        """
+    def plotToFile(self, houres, title):
         self.__plot__(houres, title)
+        filename = tempfile.mkstemp(suffix='.png')[1]  # Don't need this!
         self.fig.savefig(filename)
+        return filename
