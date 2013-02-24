@@ -5,7 +5,4 @@
 #import cal
 #import time
 #import init
-import tempSens
-
-
-tSen = tempSens.tempSensor()
+#import tempPlot
