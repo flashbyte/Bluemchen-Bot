@@ -24,6 +24,8 @@ class tempPlot(object):
         houres -- how many houres
         returns list of hashes
         """
+        if houres <= 0:
+            return None
         database = pymysql.connect(host=db['host'], user=db['user'], passwd=db['passwd'], db=db['db'])
         cursor = database.cursor()
         try:
