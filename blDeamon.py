@@ -8,7 +8,7 @@
 #import tempPlot
 import optparse
 
-
+# FIXME: optparde depracted
 parser = optparse.OptionParser()
 parser.add_option("-f", "--file", dest="filename",
                   help="write report to FILE", metavar="FILE")
