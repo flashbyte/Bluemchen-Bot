@@ -65,8 +65,9 @@ class tempPlot(object):
  
         days = DayLocator() # every day
         daysFmt = DateFormatter('%d')
+        hours6 = HourLocator(interval=6) # every 6 hour
         hours = HourLocator() # every hour
-        hoursFmt = DateFormatter('%h')
+        hoursFmt = DateFormatter('%H:%M')
 
         quotes = quotes_historical_yahoo('INTC', first, last)
         if len(quotes) == 0:
@@ -85,8 +86,8 @@ class tempPlot(object):
         ax.plot(x, y)
 
         ax.plot_date(dates, opens, '-')
-        ax.xaxis.set_major_locator(days)
-        ax.xaxis.set_major_formatter(daysFmt)
+        ax.xaxis.set_major_locator(hours6)
+        ax.xaxis.set_major_formatter(hoursFmt)
         ax.xaxis.set_minor_locator(hours)
 
         ax.autoscale_view()
