@@ -6,7 +6,11 @@
 #import time
 #import init
 import tempPlot
+import dbHandler
+
+db = dbHandler.dbHandler()
+data = db.getData(houres=24)
 
 
 tp = tempPlot.tempPlot()
-print (tp.plotToFile(24, 'Test Plot', 400, 300))
+print (tp.plotToFile(data, 'Test Plot', 400, 300))

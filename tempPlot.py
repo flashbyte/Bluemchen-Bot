@@ -6,8 +6,6 @@ matplotlib.use('Agg')
 import tempfile
 #import time
 import matplotlib.pyplot as plt
-import pymysql
-from init import db  # , dropbox
 
 
 def pixelToInch(xSize, ySize, dpi):
@@ -19,40 +17,10 @@ class tempPlot(object):
     Class for getting tempertur data from database, creating a plot and upload it to the blog.
     """
     def __init__(self):
-        self.__setDB__(host=db['host'], user=db['user'], passwd=db['passwd'], db=db['db'])
         pass
 
-    def __setDB__(self, host, user, passwd, db):
-        self.dbConf = {'host': host, 'user': user, 'passwd': passwd, 'db': db}
-
-    def __getData__(self, houres):
-        """ Get data from database
-
-        Keyword arguments:
-        houres -- how many houres
-        returns list of hashes
-        """
-        if houres <= 0:
-            return None
-        database = pymysql.connect(
-            host=self.dbConf['host'],
-            user=self.dbConf['user'],
-            passwd=self.dbConf['passwd'],
-            db=self.dbConf['db']
-            )
-        cursor = database.cursor()
-        try:
-            cursor.execute('select * from temperatur_sensor where DATE_SUB(NOW(),INTERVAL %s HOUR) <= time and temperatur order by time asc' % houres)
-            database.commit()
-        except:
-            print('DB error')
-            return None
-        database.close()
-        return list(cursor.fetchall())
-
     # FIXME: X and Y Size / Resolution error
-    def __plot__(self, houres, title, xSize=500, ySize=400):
-        data = self.__getData__(houres)
+    def __plot__(self, data, title, xSize=500, ySize=400):
         x = []
         y = []
         for i in data:
@@ -66,8 +34,8 @@ class tempPlot(object):
         # TODO: Bad date fomate
         ax.plot(x, y)
 
-    def plotToFile(self, houres, title, xSize, ySize):
-        self.__plot__(houres, title, xSize, ySize)
+    def plotToFile(self, data, title, xSize, ySize):
+        self.__plot__(data, title, xSize, ySize)
         filename = tempfile.mkstemp(suffix='.png')[1]  # Don't need this!
         self.fig.savefig(filename)
         return filename
