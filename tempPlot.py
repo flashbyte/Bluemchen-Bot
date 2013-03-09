@@ -54,6 +54,7 @@ class tempPlot(object):
         ax.xaxis.set_major_formatter(hoursFmt)
         ax.xaxis.set_minor_locator(hours)
         textsize = 9
+        # print min and max temperatur values into plot
         ax.text(0.6, 0.9, 'max = %s %s' %(maxTemp, textCelsius), va='top', transform=ax.transAxes, fontsize=textsize)
         ax.text(0.6, 0.1, 'min = %s %s' %(minTemp, textCelsius), va='bottom', transform=ax.transAxes, fontsize=textsize)
 
