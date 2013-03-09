@@ -3,7 +3,7 @@
 import tempPlot
 import dbHandler
 import os
-
+from mod_python import apache
 # Class for Handling webrequest via mod_python
 # Example: http://localhost/Bluemchen-Bot/
 # webhandler.py/getLastDay?xSize=400&ySize=300&title=Hallo
@@ -28,7 +28,7 @@ def __getPlot__(req, plot, filename, title, xSize, ySize):
 
     # Check if file exits:
     if not os.path.exists(filename):
-        return "ERROR"
+        return apache.HTTP_NOT_FOUND
 
     req.content_type = 'image/png'
     req.sendfile(filename)
