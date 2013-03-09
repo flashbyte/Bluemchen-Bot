@@ -10,6 +10,34 @@ class dbHandler(object):
     def __setDB__(self, host, user, passwd, db):
         self.dbConf = {'host': host, 'user': user, 'passwd': passwd, 'db': db}
 
+    def __connect__(self):
+        return pymysql.connect(
+            host=self.dbConf['host'],
+            user=self.dbConf['user'],
+            passwd=self.dbConf['passwd'],
+            db=self.dbConf['db']
+        )
+
+    def __execute__(self, query):
+        database = self.__connect__()
+        cursor = database.cursor()
+        try:
+            cursor.execute(query)
+            database.commit()
+        except:
+            print('DB error')
+            return None
+        database.close()
+        return cursor
+
+    def __select__(self, query):
+        cursor = self.__execute__(query)
+        # return list(cursor.fetchall())
+        return cursor.fetchall()
+
+    def __insert__(self, query):
+        self.__execute__(query)
+
     def getData(self, houres):
         """ Get data from database
 
@@ -19,26 +47,24 @@ class dbHandler(object):
         """
         if houres <= 0:
             return None
-        database = pymysql.connect(
-            host=self.dbConf['host'],
-            user=self.dbConf['user'],
-            passwd=self.dbConf['passwd'],
-            db=self.dbConf['db']
-        )
-        cursor = database.cursor()
-        try:
-            cursor.execute('select * from temperatur_sensor where DATE_SUB(NOW(),INTERVAL %s HOUR) <= time and temperatur order by time asc' % houres)
-            database.commit()
-        except:
-            print('DB error')
-            return None
-        database.close()
-        return list(cursor.fetchall())
+        else:
+            return self.__select__('select * from temperatur_sensor where DATE_SUB(NOW(),INTERVAL %s HOUR) <= time and temperatur order by time asc;' % houres)
 
     # Write an filename in DB table http_requests row path
     def writeRequest(self, filename):
-        pass
+        self.__insert__("""INSERT INTO plot_timestamps (path, time)
+                           VALUES ('%s', CURRENT_TIMESTAMP())
+                           ON DUPLICATE KEY UPDATE time = CURRENT_TIMESTAMP();""" % filename)
 
     # Checks DB for new Data
-    def hasNewData(self):
-        pass
+    def hasNewData(self, filename):
+        dataTimestamps = self.__select__('SELECT time FROM temperatur_sensor ORDER BY time DESC LIMIT 1;')
+        plotTimestamps = self.__select__("SELECT time FROM plot_timestamps WHERE path = '%s';" % filename)
+
+        if (dataTimestamps.count == 0 or plotTimestamps.count == 0):
+            return False
+
+        lastDataTimestamp = dataTimestamps[0][0]
+        lastPlotTimestamp = plotTimestamps[0][0]
+
+        return (lastPlotTimestamp < lastDataTimestamp)

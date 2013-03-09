@@ -10,6 +10,8 @@ import dbHandler
 
 db = dbHandler.dbHandler()
 data = db.getData(houres=24)
+db.writeRequest('Aasdfadsfsadf')
+print(db.hasNewData('Aasdfadsfsadf'))
 
 
 tp = tempPlot.tempPlot()
