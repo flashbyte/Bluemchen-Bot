@@ -34,3 +34,7 @@ class dbHandler(object):
             return None
         database.close()
         return list(cursor.fetchall())
+
+    # Write an filename in DB table http_requests row path
+    def writeRequest(self, filename):
+        pass
