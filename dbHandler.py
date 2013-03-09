@@ -38,3 +38,7 @@ class dbHandler(object):
     # Write an filename in DB table http_requests row path
     def writeRequest(self, filename):
         pass
+
+    # Checks DB for new Data
+    def hasNewData(self):
+        pass
