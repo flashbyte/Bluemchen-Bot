@@ -61,10 +61,15 @@ class dbHandler(object):
         dataTimestamps = self.__select__('SELECT time FROM temperatur_sensor ORDER BY time DESC LIMIT 1;')
         plotTimestamps = self.__select__("SELECT time FROM plot_timestamps WHERE path = '%s';" % filename)
 
-        if (dataTimestamps.count == 0 or plotTimestamps.count == 0):
-            return False
+        if (len(dataTimestamps) == 0):
+            retval = False
+        else:
+            if (len(plotTimestamps) == 0):
+                retval = True
+            else:
+                lastDataTimestamp = dataTimestamps[0][0]
+                lastPlotTimestamp = plotTimestamps[0][0]
 
-        lastDataTimestamp = dataTimestamps[0][0]
-        lastPlotTimestamp = plotTimestamps[0][0]
+                retval = (lastPlotTimestamp < lastDataTimestamp)
 
-        return (lastPlotTimestamp < lastDataTimestamp)
+        return retval
