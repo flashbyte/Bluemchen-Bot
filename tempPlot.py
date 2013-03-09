@@ -6,14 +6,9 @@ matplotlib.use('Agg')
 import tempfile
 #import time
 import matplotlib.pyplot as plt
-<<<<<<< HEAD
-
-=======
-import pymysql
-from init import db  # , dropbox
 from datetime import timedelta
 from matplotlib.dates import DayLocator, HourLocator, DateFormatter, date2num
->>>>>>> gfx
+
 
 def pixelToInch(xSize, ySize, dpi):
     return (xSize / dpi, ySize / dpi)
