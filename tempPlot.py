@@ -8,7 +8,9 @@ import tempfile
 import matplotlib.pyplot as plt
 import pymysql
 from init import db  # , dropbox
-
+from datetime import timedelta
+from matplotlib.dates import DayLocator, HourLocator, DateFormatter
+from matplotlib.finance import quotes_historical_yahoo
 
 def pixelToInch(xSize, ySize, dpi):
     return (xSize / dpi, ySize / dpi)
@@ -50,7 +52,6 @@ class tempPlot(object):
         database.close()
         return list(cursor.fetchall())
 
-    # FIXME: X and Y Size / Resolution error
     def __plot__(self, houres, title, xSize=500, ySize=400):
         data = self.__getData__(houres)
         x = []
@@ -58,6 +59,23 @@ class tempPlot(object):
         for i in data:
             x.append(i[0])
             y.append(i[1])
+
+        first = data[0][0]
+        last = i[0]
+ 
+        days = DayLocator() # every day
+        daysFmt = DateFormatter('%d')
+        hours = HourLocator() # every hour
+        hoursFmt = DateFormatter('%h')
+
+        quotes = quotes_historical_yahoo('INTC', first, last)
+        if len(quotes) == 0:
+            print ('Found no quotes')
+            raise SystemExit
+
+        dates = [q[0] for q in quotes]
+        opens = [q[1] for q in quotes]
+
         self.fig = plt.figure(figsize=pixelToInch(xSize, ySize, 100))
         ax = self.fig.add_subplot(111)
         ax.set_xlabel('Zeit')
@@ -65,6 +83,17 @@ class tempPlot(object):
         ax.set_title(title)
         # TODO: Bad date fomate
         ax.plot(x, y)
+
+        ax.plot_date(dates, opens, '-')
+        ax.xaxis.set_major_locator(days)
+        ax.xaxis.set_major_formatter(daysFmt)
+        ax.xaxis.set_minor_locator(hours)
+
+        ax.autoscale_view()
+#ax.xaxis.grid(False, 'major')
+#ax.xaxis.grid(True, 'minor')
+        ax.grid(True)
+        self.fig.autofmt_xdate()
 
     def plotToFile(self, houres, title, xSize, ySize):
         self.__plot__(houres, title, xSize, ySize)
