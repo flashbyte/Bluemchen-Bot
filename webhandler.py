@@ -22,16 +22,17 @@ def __getPlot__(req, plot, filename, title, xSize, ySize):
         houres = 24 * 365
 
     # Check for new Data
-    if db.hasNewData(filename):
+    if db.hasNewData('/tmp/' + filename):
         data = db.getData(houres)
-        g.plotToFile(data, filename, title, xSize, ySize)
+        g.plotToFile(data, '/tmp/' + filename, title, int(xSize), int(ySize))
+        db.writeRequest('/tmp/' + filename)
 
     # Check if file exits:
-    if not os.path.exists(filename):
+    if not os.path.exists('/tmp/' + filename):
         return apache.HTTP_NOT_FOUND
 
     req.content_type = 'image/png'
-    req.sendfile(filename)
+    req.sendfile('/tmp/' + filename)
 
 
 # Webrequest for 23 hour plot

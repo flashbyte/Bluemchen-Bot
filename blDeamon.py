@@ -9,10 +9,12 @@ import tempPlot
 import dbHandler
 
 db = dbHandler.dbHandler()
-data = db.getData(houres=24)
-db.writeRequest('Aasdfadsfsadf')
-print(db.hasNewData('Aasdfadsfsadf'))
+data = db.hasNewData('tets')
+
+print data
+# db.writeRequest('Aasdfadsfsadf')
+# print(db.hasNewData('Aasdfadsfsadf'))
 
 
-tp = tempPlot.tempPlot()
-print (tp.plotToFile(data, 'Test Plot', 400, 300))
+# tp = tempPlot.tempPlot()
+# print (tp.plotToFile(data, 'Test Plot', 400, 300))

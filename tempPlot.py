@@ -34,8 +34,7 @@ class tempPlot(object):
         # TODO: Bad date fomate
         ax.plot(x, y)
 
-    def plotToFile(self, data, title, xSize, ySize):
+    def plotToFile(self, data, filename, title, xSize, ySize):
         self.__plot__(data, title, xSize, ySize)
-        filename = tempfile.mkstemp(suffix='.png')[1]  # Don't need this!
         self.fig.savefig(filename)
         return filename
