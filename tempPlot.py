@@ -9,8 +9,7 @@ import matplotlib.pyplot as plt
 import pymysql
 from init import db  # , dropbox
 from datetime import timedelta
-from matplotlib.dates import DayLocator, HourLocator, DateFormatter
-from matplotlib.finance import quotes_historical_yahoo
+from matplotlib.dates import DayLocator, HourLocator, DateFormatter, date2num
 
 def pixelToInch(xSize, ySize, dpi):
     return (xSize / dpi, ySize / dpi)
@@ -59,23 +58,12 @@ class tempPlot(object):
         for i in data:
             x.append(i[0])
             y.append(i[1])
-
-        first = data[0][0]
-        last = i[0]
  
         days = DayLocator() # every day
         daysFmt = DateFormatter('%d')
         hours6 = HourLocator(interval=6) # every 6 hour
         hours = HourLocator() # every hour
         hoursFmt = DateFormatter('%H:%M')
-
-        quotes = quotes_historical_yahoo('INTC', first, last)
-        if len(quotes) == 0:
-            print ('Found no quotes')
-            raise SystemExit
-
-        dates = [q[0] for q in quotes]
-        opens = [q[1] for q in quotes]
 
         self.fig = plt.figure(figsize=pixelToInch(xSize, ySize, 100))
         ax = self.fig.add_subplot(111)
@@ -84,7 +72,7 @@ class tempPlot(object):
         ax.set_title(title)
         ax.plot(x, y)
 
-        ax.plot_date(dates, opens, '-')
+        ax.plot_date(date2num(data[0][0]), data[0][1],'-')
         ax.xaxis.set_major_locator(hours6)
         ax.xaxis.set_major_formatter(hoursFmt)
         ax.xaxis.set_minor_locator(hours)
