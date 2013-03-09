@@ -1,4 +1,4 @@
 Bluemchen-Bot
 =============
 
-An Bot to Twitter and Mail Stuff
+A Bot to Twitter and Mail Stuff
