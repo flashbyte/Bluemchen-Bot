@@ -47,7 +47,7 @@ class tempPlot(object):
         for i in data:
             x.append(i[0])
             y.append(i[1])
-        self.fig = plt.figure(figsize=pixelToInch(xSize, ySize, 300), dpi=300)
+        self.fig = plt.figure(figsize=pixelToInch(xSize, ySize, 100))
         ax = self.fig.add_subplot(111)
         ax.set_xlabel('Zeit')
         ax.set_ylabel('Temperatur in C')
@@ -58,5 +58,5 @@ class tempPlot(object):
     def plotToFile(self, houres, title, xSize, ySize):
         self.__plot__(houres, title, xSize, ySize)
         filename = tempfile.mkstemp(suffix='.png')[1]  # Don't need this!
-        self.fig.savefig(filename, dpi=300)
+        self.fig.savefig(filename)
         return filename
