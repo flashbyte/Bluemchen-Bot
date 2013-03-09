@@ -59,18 +59,18 @@ class tempPlot(object):
             x.append(i[0])
             y.append(i[1])
  
-        days = DayLocator() # every day
-        daysFmt = DateFormatter('%d')
-        hours6 = HourLocator(interval=6) # every 6 hour
-        hours = HourLocator() # every hour
-        hoursFmt = DateFormatter('%H:%M')
-
         self.fig = plt.figure(figsize=pixelToInch(xSize, ySize, 100))
         ax = self.fig.add_subplot(111)
         ax.set_xlabel('Zeit')
         ax.set_ylabel('Temperatur in C')
         ax.set_title(title)
         ax.plot(x, y)
+
+        days = DayLocator() # every day
+        daysFmt = DateFormatter('%d')
+        hours6 = HourLocator(interval=6) # every 6 hour
+        hours = HourLocator() # every hour
+        hoursFmt = DateFormatter('%H:%M')
 
         ax.plot_date(date2num(data[0][0]), data[0][1],'-')
         ax.xaxis.set_major_locator(hours6)
