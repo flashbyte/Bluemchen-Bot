@@ -19,7 +19,11 @@ class tempPlot(object):
     Class for getting tempertur data from database, creating a plot and upload it to the blog.
     """
     def __init__(self):
+        self.__setDB__(host=db['host'], user=db['user'], passwd=db['passwd'], db=db['db'])
         pass
+
+    def __setDB__(self, host, user, passwd, db):
+        self.dbConf = {'host': host, 'user': user, 'passwd': passwd, 'db': db}
 
     def __getData__(self, houres):
         """ Get data from database
@@ -30,7 +34,12 @@ class tempPlot(object):
         """
         if houres <= 0:
             return None
-        database = pymysql.connect(host=db['host'], user=db['user'], passwd=db['passwd'], db=db['db'])
+        database = pymysql.connect(
+            host=self.dbConf['host'],
+            user=self.dbConf['user'],
+            passwd=self.dbConf['passwd'],
+            db=self.dbConf['db']
+            )
         cursor = database.cursor()
         try:
             cursor.execute('select * from temperatur_sensor where DATE_SUB(NOW(),INTERVAL %s HOUR) <= time and temperatur order by time asc' % houres)
