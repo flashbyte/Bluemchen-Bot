@@ -82,7 +82,6 @@ class tempPlot(object):
         ax.set_xlabel('Zeit')
         ax.set_ylabel('Temperatur in C')
         ax.set_title(title)
-        # TODO: Bad date fomate
         ax.plot(x, y)
 
         ax.plot_date(dates, opens, '-')
