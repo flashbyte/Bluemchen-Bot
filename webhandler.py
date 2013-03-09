@@ -1,10 +1,14 @@
-#from mod_python import apache
+# Author Nils Mull (mail@flash-byte.de)
+# Date 2013-03-09
 import tempPlot
 import dbHandler
 import os
 
+# Class for Handling webrequest via mod_python
+# Example: http://localhost/Bluemchen-Bot/
+# webhandler.py/getLastDay?xSize=400&ySize=300&title=Hallo
 
-# http://localhost/Bluemchen-Bot/webhandler.py/getGraph?houres=24&xSize=400&ySize=300&title=Hallo
+
 def __getPlot__(req, plot, filename, title, xSize, ySize):
     db = dbHandler.dbHandler()
     g = tempPlot.tempPlot()
@@ -30,17 +34,21 @@ def __getPlot__(req, plot, filename, title, xSize, ySize):
     req.sendfile(filename)
 
 
+# Webrequest for 23 hour plot
 def getLastDay(req, title='Temperatur 24h', xSize=800, ySize=600):
     __getPlot__(req, 'day', 'dayPlot.png', title, xSize, ySize)
 
 
+# Webrequest for 7 day plot
 def getLastWeek(req, title='Temperatur 7d', xSize=800, ySize=600):
     __getPlot__(req, 'week', 'weekPlot.png', title, xSize, ySize)
 
 
+# Webrequest for 1 month plot
 def getLastMonth(req, title='Temperatur 1 Month ', xSize=800, ySize=600):
     __getPlot__(req, 'month', 'monthPlot.png', title, xSize, ySize)
 
 
+# Webrequest for one year plot
 def getLastYear(req, title='Temperatur 1 Year', xSize=800, ySize=600):
     __getPlot__(req, 'year', 'yearPlot.png', title, xSize, ySize)
