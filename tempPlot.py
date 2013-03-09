@@ -10,6 +10,10 @@ import pymysql
 from init import db  # , dropbox
 
 
+def pixelToInch(xSize, ySize, dpi):
+    return (xSize / dpi, ySize / dpi)
+
+
 class tempPlot(object):
     """docstring for tempSensot
     Class for getting tempertur data from database, creating a plot and upload it to the blog.
@@ -37,15 +41,15 @@ class tempPlot(object):
         database.close()
         return list(cursor.fetchall())
 
-    # TODO: X and Y Size
-    def __plot__(self, houres, title):
+    # FIXME: X and Y Size / Resolution error
+    def __plot__(self, houres, title, xSize=500, ySize=400):
         data = self.__getData__(houres)
         x = []
         y = []
         for i in data:
             x.append(i[0])
             y.append(i[1])
-        self.fig = plt.figure()
+        self.fig = plt.figure(figsize=pixelToInch(xSize, ySize, 100))
         ax = self.fig.add_subplot(111)
         ax.set_xlabel('Zeit')
         ax.set_ylabel('Temperatur in C')
@@ -53,8 +57,8 @@ class tempPlot(object):
         # TODO: Bad date fomate
         ax.plot(x, y)
 
-    def plotToFile(self, houres, title):
-        self.__plot__(houres, title)
+    def plotToFile(self, houres, title, xSize, ySize):
+        self.__plot__(houres, title, xSize, ySize)
         filename = tempfile.mkstemp(suffix='.png')[1]  # Don't need this!
         self.fig.savefig(filename)
         return filename
