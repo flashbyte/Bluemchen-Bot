@@ -25,14 +25,26 @@ class tempPlot(object):
     def __init__(self):
         pass
 
-    def __get_locators(cls, period):
-        if period < timedelta(days=1):
-            return cls.__hour_locators(period)
-        elif period < timedelta(weeks=2):
-            return cls.__day_locators(period)
-        else:
-            return cls.__month_locators(period)
+    def get_locators(cls, period):
+        return cls.__get_locators(period)
 
+    @classmethod
+    def __set_locators(cls, period, ax):
+        if period < timedelta(days=1):
+            majorLocator, majorFmt, minorLocator, minorFmt = \
+                cls.__hour_locators(period)
+        elif period < timedelta(weeks=2):
+            majorLocator, majorFmt, minorLocator, minorFmt = \
+                cls.__day_locators(period)
+        else:
+            majorLocator, majorFmt, minorLocator, minorFmt = \
+                cls.__month_locators(period)
+        # set locators on axis
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFmt)
+        ax.xaxis.set_minor_locator(minorLocator)
+
+    @classmethod
     def __month_locators(cls, period):
         if period < timedelta(weeks=12):
             majorLocator = WeekdayLocator(byweekday=Mo, interval=1)
@@ -46,6 +58,7 @@ class tempPlot(object):
             minorFmt = DateFormater('%d')
         return majorLocator, majorFmt, minorLocator, minorFmt
 
+    @classmethod
     def __day_locators(cls, period):
         if period < timedelta(days=3):
             majorLocator = DayLocator(interval=1)
@@ -62,6 +75,7 @@ class tempPlot(object):
         majorFmt = DateFormatter('%d.%m')
         return majorLocator, majorFmt, minorLocator, minorFmt
 
+    @classmethod
     def __hour_locators(cls, period):
         if period < timedelta(hours=2):
             majorLocator = HourLocator(interval=1)
@@ -99,13 +113,10 @@ class tempPlot(object):
         ax.set_title(title)
         ax.plot(x, y)
 
-        majorLocator, majorFmt, minorLocator, minorFormat = \
-            self.__get_locators(period)
-
         ax.plot_date(date2num(data[0][0]), data[0][1], '-')
-        ax.xaxis.set_major_locator(majorLocator)
-        ax.xaxis.set_major_formatter(majorFmt)
-        ax.xaxis.set_minor_locator(minorLocator)
+        # set xaxis locators
+        self.__set_locators(period, ax)
+
         textsize = 9
         # print min and max temperatur values into plot
         ax.text(0.6, 0.9, 'max = %s %sC' % (maxTemp, TEXT_CELSIUS), va='top',
@@ -120,6 +131,16 @@ class tempPlot(object):
         self.fig.autofmt_xdate()
 
     def plotToFile(self, data, filename, title, xSize, ySize):
+        """
+        This function plots data and saves it to file.
+
+        data -- tuple of (datetime, degree celsius float)-tuples
+        filename -- full path of file string
+        title -- string which is used as title of plot
+        xSize -- width of the plot
+        ySize -- height of the plot
+
+        """
         # TODO: Error handling if no data is given
         if data is None or data == ():
             return False
