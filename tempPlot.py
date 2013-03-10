@@ -8,7 +8,7 @@ import tempfile
 import matplotlib.pyplot as plt
 from datetime import timedelta
 from matplotlib.dates import DayLocator, HourLocator, MinuteLocator, \
-    WeekdayLocator, MonthLocator, DateFormatter, date2num
+    WeekdayLocator, MonthLocator, DateFormatter, date2num, MO
 
 # constant for unicode degree symbol
 TEXT_CELSIUS = u'\u00b0'
