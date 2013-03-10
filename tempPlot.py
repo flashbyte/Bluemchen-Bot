@@ -33,6 +33,7 @@ class tempPlot(object):
                 minTemp = i[1]
             if i[1] > maxTemp:
                 maxTemp = i[1]
+        timeDelta = i[0]-data[0][0]
 
         textCelsius = u'\u00b0C'
 
