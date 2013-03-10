@@ -1,0 +1,25 @@
+# Author: Nils Mull (mail@flash-byte.de)
+# Date: 22.01.2013
+
+#==== Config for Twitter ====
+twitterConfig = {
+    'consumerKey': '<TWITTER CONSUMER KEY>',
+    'consumerSecret': '<TWITTER CONSUMER SECRET>',
+    'tokenKey': '<TWITTER TOKEN KEY>',
+    'tokenSecret': 'TWITTER TOKEN SECRET',
+}
+
+#==== Config for Calender ====
+calenderConfig = {
+    'icalUrl': '<WEBCAL URL>',
+}
+
+#==== Program config ====
+sleepTime = 5
+
+db = {
+    'host': '<DB HOST>',
+    'user': '<DB USERNAME>',
+    'passwd': '<DB PASSWORD>',
+    'db': '<DB NAME>'
+}
