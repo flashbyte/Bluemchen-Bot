@@ -25,9 +25,6 @@ class tempPlot(object):
     def __init__(self):
         pass
 
-    def get_locators(cls, period):
-        return cls.__get_locators(period)
-
     @classmethod
     def __set_locators(cls, period, ax):
         if period < timedelta(days=1):
