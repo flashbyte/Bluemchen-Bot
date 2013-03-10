@@ -9,7 +9,7 @@ from mod_python import apache
 # webhandler.py/getLastDay?xSize=400&ySize=300&title=Hallo
 
 
-def __getPlot__(req, plot, filename, title, xSize, ySize):
+def __getPlot(req, plot, filename, title, xSize, ySize):
     filenameWithPath = "/tmp/%s-%sx%s.%s" % (filename.split('.')[0], xSize, ySize, filename.split('.')[1])
     db = dbHandler.dbHandler()
     g = tempPlot.tempPlot()
@@ -38,19 +38,19 @@ def __getPlot__(req, plot, filename, title, xSize, ySize):
 
 # Webrequest for 23 hour plot
 def getLastDay(req, title='Temperatur 24h', xSize=800, ySize=600):
-    __getPlot__(req, 'day', 'dayPlot.png', title, xSize, ySize)
+    __getPlot(req, 'day', 'dayPlot.png', title, xSize, ySize)
 
 
 # Webrequest for 7 day plot
 def getLastWeek(req, title='Temperatur 7d', xSize=800, ySize=600):
-    __getPlot__(req, 'week', 'weekPlot.png', title, xSize, ySize)
+    __getPlot(req, 'week', 'weekPlot.png', title, xSize, ySize)
 
 
 # Webrequest for 1 month plot
 def getLastMonth(req, title='Temperatur 1 Month ', xSize=800, ySize=600):
-    __getPlot__(req, 'month', 'monthPlot.png', title, xSize, ySize)
+    __getPlot(req, 'month', 'monthPlot.png', title, xSize, ySize)
 
 
 # Webrequest for one year plot
 def getLastYear(req, title='Temperatur 1 Year', xSize=800, ySize=600):
-    __getPlot__(req, 'year', 'yearPlot.png', title, xSize, ySize)
+    __getPlot(req, 'year', 'yearPlot.png', title, xSize, ySize)

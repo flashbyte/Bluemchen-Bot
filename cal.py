@@ -12,13 +12,13 @@ class Cal(object):
         self.__getCal__()
         self.__parseCal__()
 
-    def __getCal__(self):
+    def __getCal(self):
         try:
             self.__req__ = requests.get(self.icalUrl)
         except:
             print ("Could not fetch Calender")
 
-    def __parseCal__(self):
+    def __parseCal(self):
         prefix = '{http://www.w3.org/2005/Atom}'
         text = self.__req__.content
         rootElement = ElementTree.fromstring(text.encode('ascii', 'ignore'))
