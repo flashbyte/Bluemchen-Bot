@@ -22,12 +22,25 @@ class tempPlot(object):
         pass
 
     def __get_locators(cls, period):
-        days = DayLocator()  # every day
-        daysFmt = DateFormatter('%d')
-        hours6 = HourLocator(interval=6)  # every 6 hour
-        hours = HourLocator()  # every hour
+        if period < timedelta(days=1):
+            return cls.__hour_locators(period)
+        else:
+            print("[ERROR]: __get_locators is not implemented for timedelta >= 1 Day")
+
+#        days = DayLocator()  # every day
+#        daysFmt = DateFormatter('%d')
+
+    def __hour_locators(cls, period):
+        if period < timedelta(hours=12):
+            major_interval = 3
+            minor_interval = 1
+        else:
+            major_interval = 6
+            minor_interval = 1
+        major_hours = HourLocator(interval=major_interval)
+        minor_hours = HourLocator(interval=minor_interval)  
         hoursFmt = DateFormatter('%H:%M')
-        return hours6, hoursFmt, hours, hoursFmt;
+        return major_hours, hoursFmt, minor_hours, hoursFmt;
 
     def __plot__(self, data, title, xSize=500, ySize=400):
         x = []
