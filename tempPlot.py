@@ -7,7 +7,7 @@ import tempfile
 #import time
 import matplotlib.pyplot as plt
 from datetime import timedelta
-from matplotlib.dates import DayLocator, HourLocator, DateFormatter, date2num
+from matplotlib.dates import DayLocator, HourLocator, MinuteLocator, DateFormatter, date2num
 
 
 def pixelToInch(xSize, ySize, dpi):
@@ -31,16 +31,17 @@ class tempPlot(object):
 #        daysFmt = DateFormatter('%d')
 
     def __hour_locators(cls, period):
-        if period < timedelta(hours=12):
-            major_interval = 3
-            minor_interval = 1
+        if period < timedelta(hours=6):
+            major_locator = HourLocator(interval=1)
+            minor_locator = MinuteLocator(interval=30)
+        elif period < timedelta(hours=12):
+            major_locator = HourLocator(interval=3)
+            minor_locator = HourLocator(interval=1)
         else:
-            major_interval = 6
-            minor_interval = 1
-        major_hours = HourLocator(interval=major_interval)
-        minor_hours = HourLocator(interval=minor_interval)  
-        hoursFmt = DateFormatter('%H:%M')
-        return major_hours, hoursFmt, minor_hours, hoursFmt;
+            major_locator = HourLocator(interval=6)
+            minor_locator = HourLocator()  
+        fmt = DateFormatter('%H:%M')
+        return major_locator, fmt, minor_locator, fmt;
 
     def __plot__(self, data, title, xSize=500, ySize=400):
         x = []
