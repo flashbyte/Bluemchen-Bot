@@ -48,14 +48,14 @@ class tempPlot(object):
     def __month_locators(cls, period):
         if period < timedelta(weeks=12):
             majorLocator = WeekdayLocator(byweekday=MO, interval=1)
-            majorFmt = DateFormater('%d.%m')
+            majorFmt = DateFormatter('%d.%m')
             minorLocator = DayLocator(interval=1)
-            minorFmt = DateFormater('%d')
+            minorFmt = DateFormatter('%d')
         else:
             majorLocator = Monthlocator(interval=1)
-            majorFmt = DateFormater('%m.%Y')
+            majorFmt = DateFormatter('%m.%Y')
             minorLocator = WeekdayLocator(byweekday=MO, interval=1)
-            minorFmt = DateFormater('%d')
+            minorFmt = DateFormatter('%d')
         return majorLocator, majorFmt, minorLocator, minorFmt
 
     @classmethod
