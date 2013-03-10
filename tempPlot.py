@@ -24,24 +24,42 @@ class tempPlot(object):
     def __get_locators(cls, period):
         if period < timedelta(days=1):
             return cls.__hour_locators(period)
+        elif period < timedelta(weeks=2):
+            return cls.__day_locators(period)
         else:
             print("[ERROR]: __get_locators is not implemented for timedelta >= 1 Day")
 
-#        days = DayLocator()  # every day
-#        daysFmt = DateFormatter('%d')
+    def __day_locators(cls, period):
+        if period < timedelta(days=3):
+            majorLocator = DayLocator(interval=1)
+            minorLocator = HourLocator(interval=6)
+            minorFmt = DateFormatter('%H:%M')
+        elif period < timedelta(days=7):
+            majorLocator = DayLocator(interval=1)
+            minorLocator = HourLocator(interval=12)
+            minorFmt = DateFormatter('%H:%M')
+        else:
+            majorLocator = DayLocator(interval=7)
+            minorLocator = DayLocator(interval=1)
+            minorFmt = DateFormatter('%d.%m')
+        majorFmt = DateFormatter('%d.%m')
+        return majorLocator, majorFmt, minorLocator, minorFmt;
 
     def __hour_locators(cls, period):
+        if period < timedelta(hours=2):
+            majorLocator = HourLocator(interval=1)
+            minorLocator = MinuteLocator(interval=30)            
         if period < timedelta(hours=6):
-            major_locator = HourLocator(interval=1)
-            minor_locator = MinuteLocator(interval=30)
+            majorLocator = HourLocator(interval=1)
+            minorLocator = MinuteLocator(interval=30)
         elif period < timedelta(hours=12):
-            major_locator = HourLocator(interval=3)
-            minor_locator = HourLocator(interval=1)
+            majorLocator = HourLocator(interval=3)
+            minorLocator = HourLocator(interval=1)
         else:
-            major_locator = HourLocator(interval=6)
-            minor_locator = HourLocator()  
+            majorLocator = HourLocator(interval=6)
+            minorLocator = HourLocator()  
         fmt = DateFormatter('%H:%M')
-        return major_locator, fmt, minor_locator, fmt;
+        return majorLocator, fmt, minorLocator, fmt;
 
     def __plot__(self, data, title, xSize=500, ySize=400):
         x = []
