@@ -39,7 +39,7 @@ class tempPlot(object):
         self.fig = plt.figure(figsize=pixelToInch(xSize, ySize, 100))
         ax = self.fig.add_subplot(111)
         ax.set_xlabel('Zeit')
-        ax.set_ylabel('Temperatur in %s' %(textCelsius))
+        ax.set_ylabel('Temperatur in %s' % (textCelsius))
         ax.set_title(title)
         ax.plot(x, y)
 
@@ -55,8 +55,10 @@ class tempPlot(object):
         ax.xaxis.set_minor_locator(hours)
         textsize = 9
         # print min and max temperatur values into plot
-        ax.text(0.6, 0.9, 'max = %s %s' %(maxTemp, textCelsius), va='top', transform=ax.transAxes, fontsize=textsize)
-        ax.text(0.6, 0.1, 'min = %s %s' %(minTemp, textCelsius), va='bottom', transform=ax.transAxes, fontsize=textsize)
+        ax.text(0.6, 0.9, 'max = %s %s' % (maxTemp, textCelsius), va='top',
+                transform=ax.transAxes, fontsize=textsize)
+        ax.text(0.6, 0.1, 'min = %s %s' % (minTemp, textCelsius), va='bottom',
+                transform=ax.transAxes, fontsize=textsize)
 
         ax.autoscale_view()
 #ax.xaxis.grid(False, 'major')
@@ -66,7 +68,7 @@ class tempPlot(object):
 
     def plotToFile(self, data, filename, title, xSize, ySize):
         # TODO: Error handling if no data is given
-        if data == None or data == ():
+        if data is None or data == ():
             return False
 
         self.__plot__(data, title, xSize, ySize)
