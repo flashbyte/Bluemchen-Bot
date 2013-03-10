@@ -18,7 +18,7 @@ def pixelToInch(xSize, ySize, dpi):
     return (xSize / dpi, ySize / dpi)
 
 
-class tempPlot(object):
+class TempPlot(object):
     """docstring for tempSensot
     Class for creating a plot and upload it to the blog.
     """
@@ -89,7 +89,7 @@ class tempPlot(object):
         fmt = DateFormatter('%H:%M')
         return majorLocator, fmt, minorLocator, fmt
 
-    @deprecated
+#    @deprecated
     def __plot__(self, data, title, xSize=500, ySize=400):
         self.fig = self.__plot(data, title, ('Zeit', 'Temperatur in %sC' % 
                                              TEXT_CELSIUS), (xSize, ySize))
@@ -112,8 +112,8 @@ class tempPlot(object):
         fig = plt.figure(figsize=pixelToInch(dimension[0], dimension[1], 100))
         ax = fig.add_subplot(111)
         ax.set_title(title)
-        ax.set_xlabel(axisLabel[0])
-        ax.set_ylabel(axisLabel[1])
+        ax.set_xlabel(axisLabels[0])
+        ax.set_ylabel(axisLabels[1])
         ax.plot(x, y)
         ax.plot_date(date2num(data[0][0]), data[0][1], '-')
         # set xaxis locators
@@ -133,7 +133,7 @@ class tempPlot(object):
         fig.autofmt_xdate()
         return fig
 
-    @deprecated
+#    @deprecated
     def plotToFile(self, data, filename, title, xSize, ySize):
         """
         This function plots data and saves it to file.
@@ -154,12 +154,13 @@ class tempPlot(object):
         self.fig.savefig(filename)
         return filename
 
+
     def plot_temp_to_file(cls, data, filename, title, axisLabels, dimensions):
         # TODO: Error handling if no data is given, or other params are bad
         if data is None or data == ():
             return False
 
-        fig = __plot(data, title, axisLabels, dimensions)
+        fig = cls.__plot(data, title, axisLabels, dimensions)
         fig.savefig(filename)
         return True
 
