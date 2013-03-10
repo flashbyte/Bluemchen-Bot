@@ -10,6 +10,7 @@ from mod_python import apache
 
 
 def __getPlot__(req, plot, filename, title, xSize, ySize):
+    filenameWithPath = "/tmp/%s-%sx%s.%s" % (filename.split('.')[0], xSize, ySize, filename.split('.')[1])
     db = dbHandler.dbHandler()
     g = tempPlot.tempPlot()
     if plot == 'day':
@@ -22,17 +23,17 @@ def __getPlot__(req, plot, filename, title, xSize, ySize):
         houres = 24 * 365
 
     # Check for new Data
-    if db.hasNewData('/tmp/' + filename):
+    if db.hasNewData(filenameWithPath):
         data = db.getData(houres)
-        g.plotToFile(data, '/tmp/' + filename, title, int(xSize), int(ySize))
-        db.writeRequest('/tmp/' + filename)
+        g.plotToFile(data, filenameWithPath, title, int(xSize), int(ySize))
+        db.writeRequest(filenameWithPath)
 
     # Check if file exits:
-    if not os.path.exists('/tmp/' + filename):
+    if not os.path.exists(filenameWithPath):
         return apache.HTTP_NOT_FOUND
 
     req.content_type = 'image/png'
-    req.sendfile('/tmp/' + filename)
+    req.sendfile(filenameWithPath)
 
 
 # Webrequest for 23 hour plot
