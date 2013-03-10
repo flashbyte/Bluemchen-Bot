@@ -27,7 +27,20 @@ class tempPlot(object):
         elif period < timedelta(weeks=2):
             return cls.__day_locators(period)
         else:
-            print("[ERROR]: __get_locators is not implemented for timedelta >= 1 Day")
+            return cls.__month_locators(period)
+
+    def __month_locators(cls, period):
+        if period < timedelta(weeks=12):
+            majorLocator = WeekdayLocator(byweekday=Mo, interval=1)
+            majorFmt = DateFormater('%d.%m')
+            minorLocator = DayLocator(interval=1)
+            minorFmt = DateFormater('%d')
+        else:
+            majorLocator = Monthlocator(interval=1)
+            majorFmt = DateFormater('%m.%Y')
+            minorLocator = WeekdayLocator(byweekday=Mo, interval=1)
+            minorFmt = DateFormater('%d')
+        return majorLocator, majorFmt, minorLocator, minorFmt;
 
     def __day_locators(cls, period):
         if period < timedelta(days=3):
