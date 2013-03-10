@@ -8,7 +8,7 @@ import tempfile
 import matplotlib.pyplot as plt
 from datetime import timedelta
 from matplotlib.dates import DayLocator, HourLocator, MinuteLocator, \
-    WeekdayLocator, MonthLocator, DateFormatter, date2num
+    WeekdayLocator, MonthLocator, DateFormatter, date2num, MO
 
 # constant for unicode degree symbol
 TEXT_CELSIUS = u'\u00b0'
@@ -47,15 +47,15 @@ class tempPlot(object):
     @classmethod
     def __month_locators(cls, period):
         if period < timedelta(weeks=12):
-            majorLocator = WeekdayLocator(byweekday=Mo, interval=1)
-            majorFmt = DateFormater('%d.%m')
+            majorLocator = WeekdayLocator(byweekday=MO, interval=1)
+            majorFmt = DateFormatter('%d.%m')
             minorLocator = DayLocator(interval=1)
-            minorFmt = DateFormater('%d')
+            minorFmt = DateFormatter('%d')
         else:
             majorLocator = Monthlocator(interval=1)
-            majorFmt = DateFormater('%m.%Y')
-            minorLocator = WeekdayLocator(byweekday=Mo, interval=1)
-            minorFmt = DateFormater('%d')
+            majorFmt = DateFormatter('%m.%Y')
+            minorLocator = WeekdayLocator(byweekday=MO, interval=1)
+            minorFmt = DateFormatter('%d')
         return majorLocator, majorFmt, minorLocator, minorFmt
 
     @classmethod
