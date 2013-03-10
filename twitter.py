@@ -14,7 +14,7 @@ class Twitter(object):
         self.tokenSecret = twitterConfig['tokenSecret']
         self.__initTwitterClient__()
 
-    def __initTwitterClient__(self):
+    def __initTwitterClient(self):
         consumer = oauth.Consumer(self.consumerKey, self.consumerSecret)
         token = oauth.Token(self.tokenKey, self.tokenSecret)
         self.client = oauth.Client(consumer, token)
