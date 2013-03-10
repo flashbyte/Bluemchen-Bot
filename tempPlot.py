@@ -21,7 +21,7 @@ class tempPlot(object):
     def __init__(self):
         pass
 
-    def __get_locators(cls, timedelta):
+    def __get_locators(cls, period):
         days = DayLocator()  # every day
         daysFmt = DateFormatter('%d')
         hours6 = HourLocator(interval=6)  # every 6 hour
@@ -41,7 +41,7 @@ class tempPlot(object):
                 minTemp = i[1]
             if i[1] > maxTemp:
                 maxTemp = i[1]
-        timeDelta = i[0]-data[0][0]
+        period = i[0]-data[0][0]
 
         textCelsius = u'\u00b0C'
 
@@ -52,7 +52,7 @@ class tempPlot(object):
         ax.set_title(title)
         ax.plot(x, y)
 
-        majorLocator, majorFmt, minorLocator, minorFormat = self.__get_locators(timeDelta)
+        majorLocator, majorFmt, minorLocator, minorFormat = self.__get_locators(period)
 
         ax.plot_date(date2num(data[0][0]), data[0][1], '-')
         ax.xaxis.set_major_locator(majorLocator)
