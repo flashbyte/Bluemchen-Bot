@@ -5,16 +5,17 @@
 #import cal
 #import time
 #import init
-import tempPlot
+from tempPlot import TempPlot
 import dbHandler
 
 db = dbHandler.dbHandler()
-data = db.hasNewData('tets')
+#data = db.hasNewData('tets')
 
-print data
+#print data
 # db.writeRequest('Aasdfadsfsadf')
 # print(db.hasNewData('Aasdfadsfsadf'))
 
-
-# tp = tempPlot.tempPlot()
-# print (tp.plotToFile(data, 'Test Plot', 400, 300))
+data = db.getData(2400)
+tp = TempPlot()
+# print (tp.plotToFile(data, 'test.png', 'Test Plot', 400, 300))
+tp.plot_temp_to_file(data, 'test.png', 'Test Plot', ('Zeit', 'Temp'), (500, 400))
